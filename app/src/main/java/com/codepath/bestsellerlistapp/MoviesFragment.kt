@@ -13,9 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.RequestParams
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
-import com.codepath.bestsellerlistapp.R
 import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import okhttp3.Headers
 import org.json.JSONObject
@@ -23,13 +21,13 @@ import org.json.JSONObject
 // --------------------------------//
 // CHANGE THIS TO BE YOUR API KEY  //
 // --------------------------------//
-private const val API_KEY = "AS0a0wxxPOweKcLeghW8AIvBunmfRbt3"
+private const val API_KEY = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
 
 /*
  * The class for the only fragment in the app, which contains the progress bar,
  * recyclerView, and performs the network calls to the NY Times API.
  */
-class BestSellerBooksFragment : Fragment(), OnListFragmentInteractionListener {
+class MoviesFragment : Fragment(), OnListFragmentInteractionListener {
 
     /*
      * Constructing the view
@@ -38,7 +36,7 @@ class BestSellerBooksFragment : Fragment(), OnListFragmentInteractionListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_best_seller_books_list, container, false)
+        val view = inflater.inflate(R.layout.`fragment_movies_list`, container, false)
         val progressBar = view.findViewById<View>(R.id.progress) as ContentLoadingProgressBar
         val recyclerView = view.findViewById<View>(R.id.list) as RecyclerView
         val context = view.context
@@ -61,7 +59,7 @@ class BestSellerBooksFragment : Fragment(), OnListFragmentInteractionListener {
 
         // Using the client, perform the HTTP request
         client[
-            "https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json",
+            "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
             params,
             object : JsonHttpResponseHandler()
 
@@ -80,16 +78,16 @@ class BestSellerBooksFragment : Fragment(), OnListFragmentInteractionListener {
                 progressBar.hide()
 
                 //TODO - Parse JSON into Models
-                val resultsJSON : JSONObject = json.jsonObject.get("results") as JSONObject
-                val booksRawJSON : String = resultsJSON.get("books").toString()
+                //val resultsJSON : JSONObject = json.jsonObject.get("results") as JSONObject
+                val moviesRawJSON : String = json.jsonObject.get("results").toString()
                 val gson = Gson()
-                val arrayBookType = object : TypeToken<List<BestSellerBook>>() {}.type
-                val models : List<BestSellerBook> = gson.fromJson(booksRawJSON, arrayBookType)
+                val arrayMovieType = object : TypeToken<List<Movie>>() {}.type
+                val models : List<Movie> = gson.fromJson(moviesRawJSON, arrayMovieType)
 
 
 
 
-                recyclerView.adapter = BestSellerBooksRecyclerViewAdapter(models, this@BestSellerBooksFragment)
+                recyclerView.adapter = BestSellerBooksRecyclerViewAdapter(models, this@MoviesFragment)
 
                 // Look for this in Logcat:
                 Log.d("BestSellerBooksFragment", "response successful")
@@ -121,7 +119,7 @@ class BestSellerBooksFragment : Fragment(), OnListFragmentInteractionListener {
     /*
      * What happens when a particular book is clicked.
      */
-    override fun onItemClick(item: BestSellerBook) {
+    override fun onItemClick(item: Movie) {
         Toast.makeText(context, "test: " + item.title, Toast.LENGTH_LONG).show()
     }
 

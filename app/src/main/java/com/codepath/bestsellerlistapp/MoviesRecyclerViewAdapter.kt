@@ -14,14 +14,14 @@ import com.codepath.bestsellerlistapp.R.id
  * specified [OnListFragmentInteractionListener].
  */
 class BestSellerBooksRecyclerViewAdapter(
-    private val books: List<BestSellerBook>,
+    private val movies: List<Movie>,
     private val mListener: OnListFragmentInteractionListener?
     )
-    : RecyclerView.Adapter<BestSellerBooksRecyclerViewAdapter.BookViewHolder>()
+    : RecyclerView.Adapter<MoviesRecyclerViewAdapter.BookViewHolder>()
     {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_best_seller_book, parent, false)
+            .inflate(R.layout.`fragment_movie`, parent, false)
         return BookViewHolder(view)
     }
 
@@ -29,8 +29,8 @@ class BestSellerBooksRecyclerViewAdapter(
      * This inner class lets us refer to all the different View elements
      * (Yes, the same ones as in the XML layout files!)
      */
-    inner class BookViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        var mItem: BestSellerBook? = null
+    inner class MovieViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+        var mItem: Movie? = null
         val mBookTitle: TextView = mView.findViewById<View>(id.book_title) as TextView
         val mBookAuthor: TextView = mView.findViewById<View>(id.book_author) as TextView
         val mBookRanking: TextView=mView.findViewById<View>(id.ranking) as TextView
